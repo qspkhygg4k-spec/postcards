@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Heart Card with Confetti</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffe4ec;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .card {
+            position: relative;
+            width: 580px; /* Adjust based on your image sizes */
+            height: 527px; /* Adjust to match your heart aspect ratio */
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .left-half, .right-half {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            width: 50%;
+            transition: transform 4s ease;
+            backface-visibility: visible; /* To keep halves visible */
+            z-index: 2;
+            filter:drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+            -webkit-filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+        }
+
+        .left-half {
+            left: 0;
+            background: url('heart-left-hb!.png') no-repeat center center / contain;
+            transform-origin: left center;
+        }
+
+        .right-half {
+            left: 50%;
+            background: url('heart-right-hb!.png') no-repeat center center / contain;
+            transform-origin: right center;
+        }
+
+        .inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('heart-inside-lerab!.png') no-repeat center center / contain;
+            display: grid;
+            place-items: center;
+            font-size: 24px; /* If using text */
+            color: #fff; /* Adjust as needed */
+            z-index: 1;
+            filter:drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+            -webkit-filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+        }
+
+        .card.open .left-half {
+            transform: rotateY(-180deg);
+        }
+
+        .card.open .right-half {
+            transform: rotateY(180deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="card" id="heartCard">
+        <div class="left-half"></div>
+        <div class="right-half"></div>
+        <div class="inner">
+            <!-- If not using an image for inner, add text here -->
+            <!-- Example: Happy Valentine's Day! -->
+        </div>
+    </div>
+    <script>
+        const card = document.getElementById('heartCard');
+        card.addEventListener('click', () => {
+            card.classList.toggle('open');
+            if (card.classList.contains('open')) {
+              var heartShape = confetti.shapeFromPath({
+                    path: 'M0 200 v-200 h200 a100,100 90 0,1 0,200 a100,100 90 0,1 -200,0 z'
+                });
+                confetti({
+                  shapes: [heartShape],
+                    particleCount: 200,
+                    spread: 110,
+                    origin: { y: 0.5 },
+                    colors: ['#98C8E4', '#F5F2B8', '#ffafc9','#FF7398'],
+                    scalar: 3,
+                });
+            }
+        });
+    </script>
+</body>
+</html>
